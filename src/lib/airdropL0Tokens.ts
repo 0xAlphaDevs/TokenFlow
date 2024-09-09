@@ -28,67 +28,6 @@ const logMessage = (message: string) => {
   console.log(formattedMessage);
 };
 
-const singleMetagraphTransaction = async (
-  metagraphTokenClient: MetagraphTokenClient,
-  account: DagAccount,
-  transactionInfo: TransactionInfoProps
-) => {
-  const { destination, amount, fee } = transactionInfo;
-
-  try {
-    logMessage(
-      `Transaction from: ${account.address} to ${destination} - single`
-    );
-
-    const signedTransaction = await metagraphTokenClient.transfer(
-      destination,
-      amount,
-      fee
-    );
-
-    logMessage(
-      `Transaction from: ${
-        account.address
-      } to ${transactionInfo} sent - single. Generated transaction response body: ${JSON.stringify(
-        signedTransaction
-      )}`
-    );
-  } catch (e) {
-    throw Error(`Error when sending single transaction: ${e}`);
-  }
-};
-
-const singleDagTransaction = async (
-  account: DagAccount,
-  transactionInfo: TransactionInfoProps
-) => {
-  const { destination, amount, fee } = transactionInfo;
-
-  try {
-    logMessage(
-      `Transaction from: ${account.address} to ${destination} - single`
-    );
-
-    const signedTransaction = await account.generateSignedTransaction(
-      destination,
-      amount,
-      fee
-    );
-
-    await dag4.network.postTransaction(signedTransaction);
-
-    logMessage(
-      `Transaction from: ${
-        account.address
-      } to ${transactionInfo} sent - single. Generated transaction response body: ${JSON.stringify(
-        signedTransaction
-      )}`
-    );
-  } catch (e) {
-    throw Error(`Error when sending single transaction: ${e}`);
-  }
-};
-
 const batchMetagraphTransaction = async (
   metagraphTokenClient: MetagraphTokenClient,
   account: DagAccount,
@@ -131,97 +70,10 @@ const batchMetagraphTransaction = async (
   }
 };
 
-const batchDagTransaction = async (
-  account: DagAccount,
-  transactionsInfo: TransactionInfoProps[]
-) => {
-  try {
-    const txnsData = [];
-    for (const transaction of transactionsInfo) {
-      const txnBody = {
-        address: transaction.destination,
-        amount: transaction.amount,
-        fee: transaction.fee,
-      };
-
-      logMessage(
-        `Transaction from: ${account.address} to ${transaction.destination}} - batch.`
-      );
-
-      txnsData.push(txnBody);
-    }
-
-    const generatedTransactions = await account.generateBatchTransactions(
-      txnsData
-    );
-    const hashes = await account.sendBatchTransactions(generatedTransactions);
-
-    logMessage(
-      `Transaction from: ${
-        account.address
-      } sent - batch. Generated transaction response body: ${JSON.stringify(
-        generatedTransactions
-      )}. Post hashes: ${hashes}`
-    );
-
-    return hashes;
-  } catch (e) {
-    throw Error(`Error when sending batch transaction: ${e}`);
-  }
-};
-
-const handleSingleTransaction = async (
-  seedWords: string,
-  transaction: string,
-  networkOptions: NetworkOptions,
-  sendDagTransaction: boolean
-) => {
-  try {
-    const account = dag4.createAccount();
-    await account.loginSeedPhrase(seedWords);
-
-    account.connect(
-      {
-        networkVersion: "2.0",
-        l0Url: networkOptions.l0GlobalUrl,
-        l1Url: networkOptions.l1DagUrl,
-      },
-      true
-    );
-
-    try {
-      if (!sendDagTransaction) {
-        const metagraphTokenClient = account.createMetagraphTokenClient({
-          id: networkOptions.metagraphId,
-          l0Url: networkOptions.l0CurrencyUrl,
-          l1Url: networkOptions.l1CurrencyUrl,
-          beUrl: "",
-          metagraphId: "",
-        });
-
-        await singleMetagraphTransaction(
-          metagraphTokenClient,
-          account,
-          JSON.parse(transaction)
-        );
-        return;
-      }
-
-      await singleDagTransaction(account, JSON.parse(transaction));
-    } catch (error) {
-      const errorMessage = `Error when sending transactions between wallets, message: ${error}`;
-      logMessage(errorMessage);
-    }
-  } catch (error) {
-    logMessage(`Error when loging in: ${error}`);
-  }
-};
-
 const handleBatchTransactions = async (
   seedWords: string,
   transactions: TransactionInfoProps[],
-  networkOptions: NetworkOptions,
-  sendDagTransaction: boolean
+  networkOptions: NetworkOptions
 ) => {
   try {
     const account = dag4.createAccount();
@@ -236,24 +88,20 @@ const handleBatchTransactions = async (
       true
     );
     try {
-      if (!sendDagTransaction) {
-        const metagraphTokenClient = account.createMetagraphTokenClient({
-          id: networkOptions.metagraphId,
-          l0Url: networkOptions.l0CurrencyUrl,
-          l1Url: networkOptions.l1CurrencyUrl,
-          beUrl: "",
-          metagraphId: "",
-        });
+      const metagraphTokenClient = account.createMetagraphTokenClient({
+        id: networkOptions.metagraphId,
+        l0Url: networkOptions.l0CurrencyUrl,
+        l1Url: networkOptions.l1CurrencyUrl,
+        beUrl: "",
+        metagraphId: "",
+      });
 
-        await batchMetagraphTransaction(
-          metagraphTokenClient,
-          account,
-          transactions
-        );
-        return;
-      }
-
-      await batchDagTransaction(account, transactions);
+      await batchMetagraphTransaction(
+        metagraphTokenClient,
+        account,
+        transactions
+      );
+      return;
     } catch (error) {
       const errorMessage = `Error when sending transactions between wallets, message: ${error}`;
       logMessage(errorMessage);
@@ -321,16 +169,9 @@ export const airdropL0Tokens = async () => {
     },
   ];
   try {
-    handleBatchTransactions(seedWords, transactions, networkOptions, false);
+    handleBatchTransactions(seedWords, transactions, networkOptions);
     return;
   } catch (e) {
     logMessage(`Error when reading file: ${e}`);
   }
-};
-
-export const generateWallets = async () => {
-  const pk = dag4.keyStore.generatePrivateKey();
-  dag4.account.loginPrivateKey(pk);
-  const address = dag4.account.address;
-  console.log(`Address: ${address}`);
 };
