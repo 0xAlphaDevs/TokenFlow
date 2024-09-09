@@ -26,7 +26,7 @@ const Tokenflow = () => {
         fee: 0,
       };
     });
-
+    console.log(transactions);
     airdropL0Tokens(transactions);
   }
 
@@ -93,11 +93,10 @@ const Tokenflow = () => {
           <div className="flex justify-center py-4">
             <button
               onClick={handleClick}
-              className={`${
-                theme === "dark"
+              className={`${theme === "dark"
                   ? "text-black bg-slate-100"
                   : "text-white bg-black"
-              } rounded-[10px] py-1 px-2 flex items-center gap-1 font-semibold`}
+                } rounded-[10px] py-1 px-2 flex items-center gap-1 font-semibold`}
             >
               AirDrop Tokens
             </button>

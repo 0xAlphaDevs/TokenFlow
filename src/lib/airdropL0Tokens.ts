@@ -112,13 +112,13 @@ const handleBatchTransactions = async (
 };
 
 export const airdropL0Tokens = async (transactions: TransactionInfoProps[]) => {
-  const seedWords = process.env.SEED_WORDS || "";
+  const seedWords = process.env.NEXT_PUBLIC_SEED_WORDS || "";
 
-  const metagraphId = process.env.METAGRAPH_ID;
-  const l0GlobalUrl = process.env.L0_GLOBAL_URL;
-  const l0CurrencyUrl = process.env.L0_CURRENCY_URL;
-  const l1CurrencyUrl = process.env.L1_CURRENCY_URL;
-  const l1DagUrl = process.env.L1_DAG_URL;
+  const metagraphId = process.env.NEXT_PUBLIC_METAGRAPH_ID;
+  const l0GlobalUrl = process.env.NEXT_PUBLIC_L0_GLOBAL_URL;
+  const l0CurrencyUrl = process.env.NEXT_PUBLIC_L0_CURRENCY_URL;
+  const l1CurrencyUrl = process.env.NEXT_PUBLIC_L1_CURRENCY_URL;
+  const l1DagUrl = process.env.NEXT_PUBLIC_L1_DAG_URL;
 
   if (!metagraphId) {
     return {
