@@ -17,8 +17,8 @@ Token distribution tool to simplify airdrops and token distribution with L0 toke
 
 ## Links
 
-- [Presentation](https://www.canva.com/design/)
-- [Video](https://youtu.be/)
+- [Presentation](https://www.canva.com/design/DAGQQ50me0A/QM7MBA-uVv3Z2RlxVR_8tQ/view)
+- [Video](https://youtu.be/mFuykkZKxiQ)
 
 ## Tech Stack
 
@@ -42,7 +42,7 @@ Follow these instructions to set up and run the project:
 
 ## Demo Screenshots
 
-**_Analytical Dashboard_**
+**_Analytics Dashboard_**
 ![image](/public/appDemo/analytical-dashboard.png)
 
 **_TokenFlow_**
