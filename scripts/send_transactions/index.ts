@@ -363,7 +363,13 @@ const generateWallets = async () => {
     // save address to a json file
     accounts.push({ pk, address });
   }
-  fs.writeFileSync("wallets.json", JSON.stringify(accounts));
+
+  const csv = accounts.map((account) => `${account.address},10`).join("\n");
+  const pkCsv = accounts
+    .map((account) => `${account.pk},${account.address}`)
+    .join("\n");
+  fs.writeFileSync("airdrop_wallets.csv", csv);
+  fs.writeFileSync("wallets.csv", pkCsv);
 };
 
 generateWallets();
