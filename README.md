@@ -42,8 +42,14 @@ Follow these instructions to set up and run the project:
 
 ## Demo Screenshots
 
-**_Test_**
-![image](/public/appDemo/vercel.svg)
+**_Analytical Dashboard_**
+![image](/public/appDemo/analytical-dashboard.png)
+
+**_TokenFlow_**
+![image](/public/appDemo/tokenflow.png)
+
+**_Airdrop Tokens_**
+![image](/public/appDemo/airdropping.png)
 
 ## Team
 
