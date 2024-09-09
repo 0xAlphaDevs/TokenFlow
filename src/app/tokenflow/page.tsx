@@ -34,11 +34,11 @@ const Tokenflow = () => {
     setButtonText("Airdropping...");
 
     const interval = setInterval(() => {
-      const transactionsToAirdrop = transactions.splice(0, 5);
+      const transactionsToAirdrop = transactions.splice(0, 2);
       if (transactionsToAirdrop.length > 0) {
-        console.log("Airdropping 5 transactions", transactionsToAirdrop);
+        console.log("Airdropping 1 transactions", transactionsToAirdrop);
         airdropL0Tokens(transactionsToAirdrop);
-        setProgress((progress) => progress + 5);
+        setProgress((progress) => progress + 10);
       }
 
       if (transactions.length === 0) {
@@ -47,7 +47,7 @@ const Tokenflow = () => {
       }
 
       console.log("Airdropped 5 transactions");
-    }, 500);
+    }, 1000);
   }
 
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -62,7 +62,7 @@ const Tokenflow = () => {
         // Parse CSV
         const data = parseCSV(text); // Call the CSV parsing function
         // calculte airdrop amount
-
+        console.log("data", data);
         const totalAirdropAmount = data.reduce((acc, row) => {
           return acc + Number(row[1]);
         }, 0);
@@ -124,9 +124,8 @@ const Tokenflow = () => {
           </div>
           <div className="flex justify-center py-4">
             <progress
-              className={`w-full h-2 bg-${
-                theme === "dark" ? "white" : "black"
-              } rounded-lg overflow-hidden`}
+              className={`w-full h-2 bg-${theme === "dark" ? "white" : "black"
+                } rounded-lg overflow-hidden`}
               value={progress}
               max={csvData.length}
             >
@@ -137,10 +136,9 @@ const Tokenflow = () => {
             <button
               onClick={handleClick}
               className={
-                `${
-                  theme === "dark"
-                    ? "text-black bg-slate-100"
-                    : "text-white bg-black"
+                `${theme === "dark"
+                  ? "text-black bg-slate-100"
+                  : "text-white bg-black"
                 } rounded-[10px] py-1 px-2 flex items-center gap-1 font-semibold` +
                 (progress > 0 && progress < 100
                   ? " cursor-not-allowed bg-gray-500"
