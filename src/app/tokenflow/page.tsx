@@ -6,7 +6,7 @@ import { airdropL0Tokens } from '@/lib/airdropL0Tokens'
 
 const Tokenflow = () => {
   const { theme } = useTheme();
-  const [csvUploaded, setCsvUploaded] = useState<boolean>(true);
+  const [csvUploaded, setCsvUploaded] = useState<boolean>(false);
   const [csvData, setCsvData] = useState<any>(null);
 
   function handleClick() {
@@ -44,17 +44,16 @@ const Tokenflow = () => {
           </label>
         </div>
       ) : (
-        <div className="mt-10 ">
+        <div className="py-4 mt-10">
           <p>
             Table of content for csv Data
           </p>
-          <div className='flex flex-col gap-4'>
-            <p> Address: </p>
+          <div className='flex flex-col gap-4 font-semibold text-gray-500 py-8'>
             <p> Total amount of tokens to be airdropped: 10 % of the total supply</p>
-            <p> Total Supply: </p>
+            <p> Total Supply : <span className='bg-green-400 text-white px-2 py-1 rounded-lg'>100,000,000</span></p>
           </div>
-          <div className='flex justify-center'>
-            <button onClick={handleClick} className={`${theme === 'dark' ? 'text-black bg-slate-100' : 'text-white bg-black'} rounded-[10px] py-1 px-2 flex items-center gap-1`}>AirDrop Tokens</button>
+          <div className='flex justify-center py-4'>
+            <button onClick={handleClick} className={`${theme === 'dark' ? 'text-black bg-slate-100' : 'text-white bg-black'} rounded-[10px] py-1 px-2 flex items-center gap-1 font-semibold`}>AirDrop Tokens</button>
           </div>
         </div>
       )}
