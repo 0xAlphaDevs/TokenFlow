@@ -6,7 +6,7 @@ import { airdropL0Tokens } from '@/lib/airdropL0Tokens'
 
 const Tokenflow = () => {
   const { theme } = useTheme();
-  const [csvUploaded, setCsvUploaded] = useState<boolean>(false);
+  const [csvUploaded, setCsvUploaded] = useState<boolean>(true);
   const [csvData, setCsvData] = useState<any>(null);
 
   function handleClick() {
@@ -25,16 +25,14 @@ const Tokenflow = () => {
     }
   }
 
-
-
   return (
     <div className=''>
-      <p className='flex justify-start font-semibold text-2xl'>Airdrop L0 Tokens with Tokenflow</p>
+      <p className='font-semibold text-2xl'>Airdrop L0 Tokens with Tokenflow</p>
       {!csvUploaded ? (
-        <div className="border-2 border-dotted rounded-lg p-4">
+        <div className="border-4 border-dotted h-48 rounded-lg p-4 mt-16">
           <label htmlFor="csvUpload" className="cursor-pointer">
-            <div className="text-center">
-              <p>Click to upload CSV file</p>
+            <div className="text-center mt-16">
+              <p className='font-semibold text-gray-600'>Click to upload CSV file</p>
             </div>
             <input
               id="csvUpload"
@@ -46,11 +44,21 @@ const Tokenflow = () => {
           </label>
         </div>
       ) : (
-        <div className="p-4 border rounded-lg">
-          <p>{csvData}</p>
+        <div className="mt-10 ">
+          <p>
+            Table of content for csv Data
+          </p>
+          <div className='flex flex-col gap-4'>
+            <p> Address: </p>
+            <p> Total amount of tokens to be airdropped: 10 % of the total supply</p>
+            <p> Total Supply: </p>
+          </div>
+          <div className='flex justify-center'>
+            <button onClick={handleClick} className={`${theme === 'dark' ? 'text-black bg-slate-100' : 'text-white bg-black'} rounded-[10px] py-1 px-2 flex items-center gap-1`}>AirDrop Tokens</button>
+          </div>
         </div>
       )}
-      {/* <button onClick={handleClick} className={`${theme === 'dark' ? 'text-black bg-slate-100' : 'text-white bg-black'} rounded-[10px] py-1 px-2 flex items-center gap-1`}>Test</button> */}
+
     </div>
   )
 }
