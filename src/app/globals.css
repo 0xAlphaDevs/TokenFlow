@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .card {
+    background-color: theme('colors.white');
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing.6');
+  }
+  .label {
+    @apply font-label text-white font-bold uppercase rounded-full;
+    font-size: 8px;
+    padding: 6px 10px;
+  }
+  .badgeReady, .badgeInitial, .badgeReadyJoin {
+    background-color: #12A405;
+  }
+
+  .badgeLoadingGenesis, .badgeGenesisReady {
+    background-color: #754BED;
+  }
+
+  .badgeStartingSession, .badgeSessionStarted {
+    background-color: #198CF6;
+  }
+
+  .badgeWaitingForDownload, .badgeDownloadInProgress {
+    background-color: #EC770B;
+  }
+
+  .badgeLeaving, .badgeOffline {
+    background-color: #E13E27;
+  }
+
+  .headerRow {
+    font-size: 11px;
+    @apply font-label px-6 py-2 font-normal text-black/40 tracking-tight;
+  }
+  .dataRow {
+    @apply font-mono px-6 py-3 font-normal text-black/70 text-sm;
+  }
+  .tableRow {
+    @apply border-b border-black/10 hover:bg-black/5;
+  }
+  .ordinal {
+    @apply bg-black/10 rounded-full px-3 py-1 font-normal;
+  }
+}
