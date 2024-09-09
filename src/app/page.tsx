@@ -29,7 +29,7 @@ export default async function Home() {
   const CURRENCY_L1_CLUSTER_NAME = 'Currency L1'
 
   return (
-    <div className="w-full h-full px-6 pb-4 bg-background-light dark:bg-background-dark">
+    <div className="w-full h-full pb-4 bg-background-light dark:bg-background-dark">
       <section className="mt-6 grid w-full grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
         <ClusterMetrics
           apiUrl={process.env.L0_GLOBAL_URL}
