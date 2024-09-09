@@ -36,7 +36,6 @@ const Tokenflow = () => {
     const interval = setInterval(() => {
       const transactionsToAirdrop = transactions.splice(0, 2);
       if (transactionsToAirdrop.length > 0) {
-        console.log("Airdropping 1 transactions", transactionsToAirdrop);
         airdropL0Tokens(transactionsToAirdrop);
         setProgress((progress) => progress + 10);
       }
@@ -45,8 +44,6 @@ const Tokenflow = () => {
         clearInterval(interval);
         setButtonText("Airdrop Successful");
       }
-
-      console.log("Airdropped 5 transactions");
     }, 1000);
   }
 
@@ -143,7 +140,7 @@ const Tokenflow = () => {
                 (progress > 0 && progress < 100
                   ? " cursor-not-allowed bg-gray-500"
                   : "") +
-                (progress === csvData.length ? " bg-green-700" : "")
+                (progress === 100 ? " bg-green-700" : "")
               }
               disabled={progress > 0}
             >
