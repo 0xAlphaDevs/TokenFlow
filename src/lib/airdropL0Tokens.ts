@@ -111,7 +111,7 @@ const handleBatchTransactions = async (
   }
 };
 
-export const airdropL0Tokens = async () => {
+export const airdropL0Tokens = async (transactions: TransactionInfoProps[]) => {
   const seedWords = process.env.SEED_WORDS || "";
 
   const metagraphId = process.env.METAGRAPH_ID;
@@ -156,22 +156,10 @@ export const airdropL0Tokens = async () => {
     l1DagUrl,
   };
 
-  const transactions: TransactionInfoProps[] = [
-    {
-      destination: "DAG4o41NzhfX6DyYBTTXu6sJa6awm36abJpv89jB",
-      amount: 11,
-      fee: 0,
-    },
-    {
-      destination: "DAG8pkb7EhCkT3yU87B2yPBunSCPnEdmX2Wv24sZ",
-      amount: 5,
-      fee: 1,
-    },
-  ];
   try {
     handleBatchTransactions(seedWords, transactions, networkOptions);
-    return;
+    return { result: true, message: "Transactions sent successfully" };
   } catch (e) {
-    logMessage(`Error when reading file: ${e}`);
+    return { result: false, message: `Error when sending transactions: ${e}` };
   }
 };
