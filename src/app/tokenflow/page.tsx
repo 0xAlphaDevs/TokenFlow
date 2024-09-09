@@ -15,6 +15,9 @@ const Tokenflow = () => {
   const { theme } = useTheme();
   const [csvUploaded, setCsvUploaded] = useState<boolean>(false);
   const [csvData, setCsvData] = useState<any>(null);
+  const [progress, setProgress] = useState<number>(0);
+  const [buttonText, setButtonText] = useState<string>("Airdrop Tokens");
+  const [airdropAmount, setAirdropAmount] = useState<number>(0);
 
   function handleClick() {
     console.log("clicked");
@@ -27,7 +30,24 @@ const Tokenflow = () => {
       };
     });
     console.log(transactions);
-    airdropL0Tokens(transactions);
+    // call every 1 seconds with 5 transactions
+    setButtonText("Airdropping...");
+
+    const interval = setInterval(() => {
+      const transactionsToAirdrop = transactions.splice(0, 5);
+      if (transactionsToAirdrop.length > 0) {
+        console.log("Airdropping 5 transactions", transactionsToAirdrop);
+        airdropL0Tokens(transactionsToAirdrop);
+        setProgress((progress) => progress + 5);
+      }
+
+      if (transactions.length === 0) {
+        clearInterval(interval);
+        setButtonText("Airdrop Successful");
+      }
+
+      console.log("Airdropped 5 transactions");
+    }, 500);
   }
 
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -41,6 +61,14 @@ const Tokenflow = () => {
 
         // Parse CSV
         const data = parseCSV(text); // Call the CSV parsing function
+        // calculte airdrop amount
+
+        const totalAirdropAmount = data.reduce((acc, row) => {
+          return acc + Number(row[1]);
+        }, 0);
+
+        setAirdropAmount(totalAirdropAmount);
+        console.log("Total Airdrop Amount", totalAirdropAmount);
         setCsvData(data);
         setCsvUploaded(true);
       };
@@ -81,24 +109,47 @@ const Tokenflow = () => {
         <div className="py-4 mt-10">
           <AirDropTable csvData={csvData} />
           <div className="flex flex-col gap-4 font-semibold text-gray-500 py-8">
-            <p> Airdrop Amount : 1000 (10 % of the total supply)</p>
+            <p>
+              {" "}
+              Airdrop Amount : {airdropAmount} ({airdropAmount / 1000000000} %
+              of the total supply)
+            </p>
             <p>
               {" "}
               Total L0 Token Supply :{" "}
               <span className="bg-green-400 text-white px-2 py-1 rounded-lg">
-                1,000,000,000
+                1,000,020,000
               </span>
             </p>
           </div>
           <div className="flex justify-center py-4">
+            <progress
+              className={`w-full h-2 bg-${
+                theme === "dark" ? "white" : "black"
+              } rounded-lg overflow-hidden`}
+              value={progress}
+              max={csvData.length}
+            >
+              {progress}%
+            </progress>
+          </div>
+          <div className="flex justify-center py-4">
             <button
               onClick={handleClick}
-              className={`${theme === "dark"
-                  ? "text-black bg-slate-100"
-                  : "text-white bg-black"
-                } rounded-[10px] py-1 px-2 flex items-center gap-1 font-semibold`}
+              className={
+                `${
+                  theme === "dark"
+                    ? "text-black bg-slate-100"
+                    : "text-white bg-black"
+                } rounded-[10px] py-1 px-2 flex items-center gap-1 font-semibold` +
+                (progress > 0 && progress < 100
+                  ? " cursor-not-allowed bg-gray-500"
+                  : "") +
+                (progress === csvData.length ? " bg-green-700" : "")
+              }
+              disabled={progress > 0}
             >
-              AirDrop Tokens
+              {buttonText}
             </button>
           </div>
         </div>
