@@ -33,9 +33,12 @@ Follow these instructions to set up and run the project:
 **Using Github**
 
 - Clone the Git repository: `https://github.com/0xAlphaDevs/Mylo.git`
-- Install project dependencies: `pnpm install`
-- Start the development server: `pnpm run dev`
-- Access the web app in your browser at [http://localhost:3000](http://localhost:3000)
+- Set up your Euclid developer sdk and run the required docker containers [Quickstart](https://docs.constellationnetwork.io/sdk/guides/quick-start/)
+- Install project dependencies: `yarn install`
+- Copy the .env.example file to .env.local and fill in the required values
+- Start the development server: `yarn dev`
+- Access the web app in your browser at [http://localhost:8080](http://localhost:8080)
+-
 
 ## Demo Screenshots
 

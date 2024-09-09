@@ -124,7 +124,7 @@ const Tokenflow = () => {
               className={`w-full h-2 bg-${theme === "dark" ? "white" : "black"
                 } rounded-lg overflow-hidden`}
               value={progress}
-              max={csvData.length}
+              max={100}
             >
               {progress}%
             </progress>
